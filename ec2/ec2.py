@@ -10,11 +10,7 @@ class EC2(MagicDict):
         self.AWSInstance = ec2.Instance(
             "AWSInstance",
             Tags=Tags(
-                    Name=Join("", [
-                        Ref(AWS_STACK_NAME),
-                        "-01.",
-                        ImportValue("ctrlengineering.com")
-                    ])
+                    Name=AWS_STACK_NAME
             ),
             SecurityGroupIds=[
                 "sg-1a2b217d"
