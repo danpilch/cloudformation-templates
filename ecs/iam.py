@@ -17,14 +17,15 @@ class IAM(MagicDict):
                         Action=[sts.AssumeRole],
                         Principal=aws.Principal("Service", ["ec2.amazonaws.com"])
                     )
-                ]
+                ],
+                Version="2012-10-17"
             )
         )
 
         self.InstanceProfile = iam.InstanceProfile(
             "InstanceProfile",
             Path="/",
-            Roles=[self.InstanceRole]
+            Roles=[Ref(self.InstanceRole)]
         )
 	
 	self.InstancePolicy = iam.ManagedPolicy(
@@ -51,8 +52,10 @@ class IAM(MagicDict):
                             aws.Action("sqs", "*"),
                             aws.Action("s3", "*")
                         ],
+                        Resource=["*"],
                         Effect=aws.Allow,
                     )
-                ]
+                ],
+                Version="2012-10-17"
             )
         )	

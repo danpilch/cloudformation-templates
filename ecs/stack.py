@@ -3,6 +3,7 @@ from troposphere import Template, Output, Ref, Export, Sub
 from parameters import Parameters
 from iam import IAM
 from ecs import ECS
+from cloudwatch import Cloudwatch
 
 
 class Stack(object):
@@ -12,15 +13,20 @@ class Stack(object):
         self.template.add_description("Creates an ECS stack to run docker applications")
 
         parameters = Parameters()
+        iam = IAM(parameters=parameters)
+        ecs = ECS(parameters=parameters, IAM=iam)
+        cloudwatch = Cloudwatch(ecs=ecs)
+
         for param in parameters.values():
             self.template.add_parameter(param)
 
-        iam = IAM(parameters=parameters)
         for resource in iam.values():
             self.template.add_resource(resource)
 
-        ecs = ECS(parameters=parameters, IAM=iam)
         for resource in ecs.values():
+            self.template.add_resource(resource)
+
+        for resource in cloudwatch.values():
             self.template.add_resource(resource)
 
         self.template.add_output(Output(
