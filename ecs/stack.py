@@ -1,7 +1,7 @@
-from troposphere import Template
+from troposphere import Template, Output, Ref, Export, Sub
 
 from parameters import Parameters
-from iam_policy import IAM
+from iam import IAM
 from ecs import ECS
 
 
@@ -15,9 +15,24 @@ class Stack(object):
         for param in parameters.values():
             self.template.add_parameter(param)
 
-        for resource in IAM(parameters=parameters).values():
+        iam = IAM(parameters=parameters)
+        for resource in iam.values():
             self.template.add_resource(resource)
 
-        for resource in ECS(parameters=parameters).values():
+        ecs = ECS(parameters=parameters, IAM=iam)
+        for resource in ecs.values():
             self.template.add_resource(resource)
 
+        self.template.add_output(Output(
+            "Cluster",
+            Description="Cluster Name",
+            Value=Ref(ecs.Cluster),
+            Export=Export(Sub("${AWS::StackName}-cluster"))
+        ))
+        
+        self.template.add_output(Output(
+            "InstanceSG",
+            Description="Security Group which balancer stack needs to access",
+            Value=Ref(ecs.InstanceSG),
+            Export=Export(Sub("${AWS::StackName}-sg-instance"))
+        ))
