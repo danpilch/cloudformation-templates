@@ -10,7 +10,7 @@ class Parameters(MagicDict):
             "InstanceImage",
             Default="ami-02ace471",
             Type="String",
-            Description="Select an AMI for the Birst Connect server"
+            Description="Select an AMI"
         )
 
         self.InstanceKeyPair = Parameter(
@@ -34,3 +34,10 @@ class Parameters(MagicDict):
             Description="Select a size for the Birst Connect server",
             AllowedValues=["t2.micro", "t2.small", "t2.medium", "t2.large"]
         )
+
+        self.PublicDomain = Parameter(
+            "PublicDomain",
+            Default="ctrlengineering.com",
+            Type="String",
+            Description="domain to use for public DNS record",
+        )    

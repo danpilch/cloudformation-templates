@@ -8,7 +8,7 @@ class Stack(object):
     def __init__(self):
         self.template = Template()
         self.template.add_version("2010-09-09")
-        self.template.add_description("Creates an EC2 image")
+        self.template.add_description("Creates an EC2 image with loadbalancer")
 
         parameters = Parameters()
         for param in parameters.values():
