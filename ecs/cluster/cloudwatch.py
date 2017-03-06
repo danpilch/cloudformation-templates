@@ -3,13 +3,16 @@ from troposphere import cloudwatch
 
 from magicdict import MagicDict
 
+
 class Cloudwatch(MagicDict):
     def __init__(self, ecs):
         super(Cloudwatch, self).__init__()
 
         self.LowMemoryReservedAlarm = cloudwatch.Alarm(
             "LowMemoryReservedAlarm",
-            AlarmActions=Ref(ecs.AutoScalingGroupDownPolicy),
+            AlarmActions=[
+                Ref(ecs.AutoScalingGroupDownPolicy)
+            ],
             AlarmDescription="Triggers when cluster underutilising resources",
             ComparisonOperator="LessThanThreshold",
             Dimensions=[
@@ -29,7 +32,9 @@ class Cloudwatch(MagicDict):
 
         self.HighMemoryReservedAlarm = cloudwatch.Alarm(
             "HighMemoryReservedAlarm",
-            AlarmActions=Ref(ecs.AutoScalingGroupUpPolicy),
+            AlarmActions=[
+                Ref(ecs.AutoScalingGroupUpPolicy)
+            ],
             AlarmDescription="Triggers when cluster running low on resources",
             ComparisonOperator="GreaterThanThreshold",
             Dimensions=[

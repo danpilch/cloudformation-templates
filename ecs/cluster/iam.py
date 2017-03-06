@@ -4,6 +4,7 @@ from awacs import sts
 
 from magicdict import MagicDict
 
+
 class IAM(MagicDict):
     def __init__(self, parameters):
         super(IAM, self).__init__()
