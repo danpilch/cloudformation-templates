@@ -17,8 +17,8 @@ class Stack(object):
         ecs = ECS(parameters=parameters, IAM=iam)
         cloudwatch = Cloudwatch(ecs=ecs)
 
-        for param in parameters.values():
-            self.template.add_parameter(param)
+        for resource in parameters.values():
+            self.template.add_parameter(resource)
 
         for resource in iam.values():
             self.template.add_resource(resource)
