@@ -34,24 +34,6 @@ class IAM(MagicDict):
                 ]
             )
         )
-
-#	self.emr_service_role = iam.Role(
-#	    'EMRServiceRole',
-#	    AssumeRolePolicyDocument={
-#	        "Statement": [{
-#	            "Effect": "Allow",
-#	            "Principal": {
-#	                "Service": [
-#	                    "elasticmapreduce.amazonaws.com"
-#	                ]
-#	            },
-#	            "Action": ["sts:AssumeRole"]
-#	        }]
-#	    },
-#	    ManagedPolicyArns=[
-#	        'arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceRole'
-#	    ]
-#	)
 	
 	self.emr_job_flow_role = iam.Role(
 	    "EMRJobFlowRole",
