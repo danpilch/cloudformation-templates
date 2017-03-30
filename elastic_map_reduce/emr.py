@@ -5,7 +5,7 @@ from magicdict import MagicDict
 
 
 class EMR(MagicDict):
-    def __init__(self, parameters, iam):
+    def __init__(self, parameters, iam, buckets):
         super(EMR, self).__init__()
 
         self.EMRCluster = emr.Cluster(
@@ -15,6 +15,7 @@ class EMR(MagicDict):
             Configurations=[
             ],
             JobFlowRole=Ref(iam.emr_instance_profile),
+            LogUri=Join("", ["s3://", Ref(buckets.EMRBucket), "/logs"]),
             ServiceRole=Ref(iam.emr_service_role),
             Instances=emr.JobFlowInstancesConfig(
                 Ec2KeyName=Ref(parameters.InstanceKeyPair),
@@ -47,7 +48,8 @@ class EMR(MagicDict):
             ),
             Applications=[
                 emr.Application(Name="Hadoop"),
-                emr.Application(Name="Spark")
+                emr.Application(Name="Spark"),
+                emr.Application(Name="Hive")
             ],
             VisibleToAllUsers="true",
             Tags=Tags(

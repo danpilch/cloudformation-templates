@@ -3,6 +3,7 @@ from troposphere import Template
 from parameters import Parameters
 from emr import EMR
 from iam import IAM
+from buckets import Buckets
 
 
 class Stack(object):
@@ -12,11 +13,15 @@ class Stack(object):
         self.template.add_description("Creates resources for a EMR environment")
 
         parameters = Parameters()
-        for param in parameters.values():
-            self.template.add_parameter(param)
+        for resource in parameters.values():
+            self.template.add_parameter(resource)
 
-        for resource in IAM(parameters=parameters).values():
+        buckets = Buckets()
+        for resource in buckets.values():
+            self.template.add_resource(resource)        
+
+        for resource in IAM(parameters=parameters, buckets=buckets).values():
             self.template.add_resource(resource)
 
-        for resource in EMR(parameters=parameters, iam=IAM(parameters=parameters)).values():
+        for resource in EMR(parameters=parameters, buckets=buckets, iam=IAM(parameters=parameters, buckets=buckets)).values():
             self.template.add_resource(resource)
