@@ -1,4 +1,4 @@
-from stack import Stack
+from lib.ecs.cluster.stack import Stack
 
 
 def main():

@@ -3,6 +3,7 @@ from troposphere import ec2, elasticloadbalancing, route53
 
 from magicdict import MagicDict
 
+
 class EC2(MagicDict):
     def __init__(self, parameters):
         super(EC2, self).__init__()

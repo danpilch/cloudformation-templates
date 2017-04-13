@@ -1,4 +1,4 @@
-from stack import Stack
+from lib.emr.stack import Stack
 
 
 def main():

@@ -12,7 +12,20 @@ class EMR(MagicDict):
             "EMRCluster",
             Name=Join("-", [Ref(AWS_STACK_NAME), "emr"]),
             ReleaseLabel=Ref(parameters.EMRVersion),
+            BootstrapActions=[emr.BootstrapActionConfig(
+                Name="Bootstrap cluster (expects s3 bucket and bootstrap file to exist)",
+                ScriptBootstrapAction=emr.ScriptBootstrapActionConfig(
+                    Path=Join("", ["s3://", Ref(parameters.EMRBootstrapBucketFile.title)]),
+                    Args=[]
+                )
+            )],
             Configurations=[
+                emr.Configuration(
+                    Classification="spark",
+                    ConfigurationProperties={
+                        'maximizeResourceAllocation': 'true'
+                    }
+                ),
             ],
             JobFlowRole=Ref(iam.emr_instance_profile),
             LogUri=Join("", ["s3://", Ref(buckets.EMRBucket), "/logs"]),
@@ -49,6 +62,7 @@ class EMR(MagicDict):
             Applications=[
                 emr.Application(Name="Hadoop"),
                 emr.Application(Name="Spark"),
+                emr.Application(Name="Ganglia"),
                 emr.Application(Name="Hive")
             ],
             VisibleToAllUsers="true",

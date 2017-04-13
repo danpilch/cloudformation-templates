@@ -22,10 +22,10 @@ class Parameters(MagicDict):
         
         self.InstanceType = Parameter(
             "InstanceType",
-            Default="m1.large",
+            Default="m4.large",
             Type="String",
             Description="Instance type for cluster",
-            AllowedValues=["m1.large", "m1.xlarge"]
+            AllowedValues=["m4.large", "m4.xlarge"]
         )  
         
         self.InstanceCount = Parameter(
@@ -44,7 +44,13 @@ class Parameters(MagicDict):
 
         self.InstanceKeyPair = Parameter(
             "InstanceKeyPair",
-            Default="np-shared",
             Type=KEY_PAIR_NAME,
             Description="The keypair to use for initial connections"
+        )
+
+        self.EMRBootstrapBucketFile = Parameter(
+            "EMRBootstrapBucketFile",
+            Default="emr-bootstrap/emr_bootstrap.sh",
+            Type="String",
+            Description="S3 bucket path to bootstrap file"
         )

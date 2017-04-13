@@ -1,5 +1,4 @@
-from stack import Stack
-
+from lib.ec2.stack import Stack
 
 def main():
     print(Stack().template.to_json())

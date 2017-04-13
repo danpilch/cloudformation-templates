@@ -1,9 +1,9 @@
 from troposphere import Template, Output, Ref, Export, Sub
 
-from cluster.parameters import Parameters
-from cluster.iam import IAM
-from cluster.ecs import ECS
-from cluster.cloudwatch import Cloudwatch
+from parameters import Parameters
+from iam import IAM
+from ecs import ECS
+from cloudwatch import Cloudwatch
 
 
 class Stack(object):
